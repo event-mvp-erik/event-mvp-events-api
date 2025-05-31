@@ -10,8 +10,8 @@ namespace EventMvpEventsApi.Controllers
     {
         private static readonly List<EventDto> Events = new List<EventDto>
         {
-            new EventDto { Id = 1, Name = "React Conference", Date = "2025-06-01", Location = "Stockholm", Description = "A conference about React." },
-            new EventDto { Id = 2, Name = "Dotnet Meetup", Date = "2025-06-15", Location = "Gothenburg", Description = "A meetup about .NET development." }
+            new EventDto { Id = 1, Title = "React Conference", Date = "2025-06-01", Location = "Stockholm", Description = "A conference about React and frontend tech." },
+            new EventDto { Id = 2, Title = "Dotnet Meetup", Date = "2025-06-15", Location = "Gothenburg", Description = "A meetup for .NET developers in Sweden." }
         };
 
         [HttpGet]
@@ -33,7 +33,7 @@ namespace EventMvpEventsApi.Controllers
     public class EventDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Title { get; set; }
         public string Date { get; set; }
         public string Location { get; set; }
         public string Description { get; set; }
