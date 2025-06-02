@@ -28,6 +28,18 @@ namespace EventMvpEventsApi.Controllers
                 return NotFound();
             return Ok(evt);
         }
+
+        [HttpPost]
+        public ActionResult<EventDto> Create([FromBody] EventDto newEvent)
+        {
+            if (string.IsNullOrWhiteSpace(newEvent.Title) || string.IsNullOrWhiteSpace(newEvent.Date))
+                return BadRequest("Title and Date are required.");
+
+            newEvent.Id = Events.Max(e => e.Id) + 1;
+            Events.Add(newEvent);
+
+            return CreatedAtAction(nameof(GetById), new { id = newEvent.Id }, newEvent);
+        }
     }
 
     public class EventDto
