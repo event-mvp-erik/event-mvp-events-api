@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EventMvpEventsApi.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EventMvpEventsApi.Controllers
 {
@@ -8,22 +8,23 @@ namespace EventMvpEventsApi.Controllers
     [Route("api/[controller]")]
     public class EventsController : ControllerBase
     {
-        private static readonly List<EventDto> Events = new List<EventDto>
+        private readonly IEventRepository _repository;
+
+        public EventsController(IEventRepository repository)
         {
-            new EventDto { Id = 1, Title = "React Conference", Date = "2025-06-01", Location = "Stockholm", Description = "A conference about React and frontend tech." },
-            new EventDto { Id = 2, Title = "Dotnet Meetup", Date = "2025-06-15", Location = "Gothenburg", Description = "A meetup for .NET developers in Sweden." }
-        };
+            _repository = repository;
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<EventDto>> GetAll()
         {
-            return Ok(Events);
+            return Ok(_repository.GetAll());
         }
 
         [HttpGet("{id}")]
         public ActionResult<EventDto> GetById(int id)
         {
-            var evt = Events.FirstOrDefault(e => e.Id == id);
+            var evt = _repository.GetById(id);
             if (evt == null)
                 return NotFound();
             return Ok(evt);
@@ -35,10 +36,8 @@ namespace EventMvpEventsApi.Controllers
             if (string.IsNullOrWhiteSpace(newEvent.Title) || string.IsNullOrWhiteSpace(newEvent.Date))
                 return BadRequest("Title and Date are required.");
 
-            newEvent.Id = Events.Max(e => e.Id) + 1;
-            Events.Add(newEvent);
-
-            return CreatedAtAction(nameof(GetById), new { id = newEvent.Id }, newEvent);
+            var created = _repository.Create(newEvent);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
     }
 

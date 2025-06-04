@@ -1,3 +1,5 @@
+using EventMvpEventsApi.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -15,6 +17,9 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Registrera repository som en service
+builder.Services.AddSingleton<IEventRepository, InMemoryEventRepository>();
 
 var app = builder.Build();
 
