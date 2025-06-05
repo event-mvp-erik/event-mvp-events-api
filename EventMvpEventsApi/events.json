@@ -1,0 +1,16 @@
+[
+  {
+    "Id": 1,
+    "Title": "Testvent",
+    "Date": "2025-10-11",
+    "Location": "Testholm",
+    "Description": "Secret"
+  },
+  {
+    "Id": 2,
+    "Title": "Eventus",
+    "Date": "2025-06-25",
+    "Location": "Da Town",
+    "Description": "Come here and event!!"
+  }
+]
