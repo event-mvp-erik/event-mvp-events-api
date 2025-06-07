@@ -12,9 +12,12 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:51417")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
+            policy.WithOrigins(
+                    "http://localhost:51417",
+                    "https://icy-smoke-0abc7ed1e.6.azurestaticapps.net"
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod();
         });
 });
 builder.Services.AddEndpointsApiExplorer();
